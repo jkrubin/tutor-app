@@ -58,8 +58,8 @@ module.exports = {
     },
     async deleteLesson(req, res){
         try{
-            let {id} = req.parmas
-            let lesson = await Lesson.FindOne({where: {id}})
+            let {id} = req.params
+            let lesson = await Lesson.findOne({where: {id}})
             if(!lesson){
                 return res.status(404).send({error: 'Lesson not found'})
             }
