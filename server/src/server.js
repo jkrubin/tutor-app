@@ -21,7 +21,7 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-sequelize.sync()
+sequelize.sync({})
 	.then(() => {
 		app.listen(8081, () => console.log('API listening on port 8081!'))
 	})  

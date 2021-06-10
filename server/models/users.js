@@ -35,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   users.associate = function(models) {
+    users.hasMany(models.Lesson)
   };
   users.prototype.comparePassword = function (enteredPass) {
     return bcrypt.compareAsync(enteredPass, this.password)
