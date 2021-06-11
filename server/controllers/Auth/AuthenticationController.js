@@ -63,6 +63,29 @@ module.exports = {
 	async me (req, res) {
 		res.status(200).send({message: 'admin function reached'})
 	},
+	async tokenLogin(req, res){
+		try{
+			const token = req.headers['x-access-token']
+			if(!token){
+				return res.status(401).send({error: 'Could not complete login'})
+			}
+			jwt.verify(token, config.authentication.jwtSecret, async function(err, token){
+				if(err){
+					return res.status(500).send({message: 'Invalid Account'})
+				}else{
+					const user = await users.findById(token.id)
+					const userJson = user.toJSON()
+					res.send({
+						user: userJson,
+						token: jwtSignUser(userJson)
+					})
+				}
+			})	
+		}catch(err){
+			console.log(err)
+			return res.status(500).send
+		}
+	},
 	async isAdmin (req, res, next) {
 		const token = req.headers['x-access-token']
 		if (!token) {

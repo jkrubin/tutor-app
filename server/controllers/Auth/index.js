@@ -11,6 +11,9 @@ let router = express.Router();
 	//Login User
 	router.post('/login',
 		AuthenticationController.login)
+	//Login with token
+	router.post('/tokenLogin', 
+		AuthenticationController.tokenLogin)
 	//Update User
 	router.post('/updateUser',
 		AuthenticationController.matchUserToken,

@@ -1,6 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Lessons from '../Lessons'
+import * as req from '../../req'
+import {useDispatch} from 'react-redux'
+import Cookies from 'universal-cookie';
+import * as AuthActions from '../../redux/auth/actions'
 import {
     BrowserRouter as Router,
     Switch,
@@ -10,19 +15,49 @@ import {
 import{
     TabNavigation,
     Tab,
+    Avatar,
+    Button,
+    Popover,
+    Pane
   } from 'evergreen-ui' 
+import Login from './login'
 const HomePage = (props) =>{
-    const user = useSelector(state => state.user)
+    const d = useDispatch()
+    const auth = useSelector(state => state.auth)
+    const history = useHistory()
+    useEffect(()=>{
+        const tokenLogin = async(token)=>{
+            d(AuthActions.setIsLoading(true))
+            let res = await req.post('/api/auth/tokenLogin', {}, {headers:{'x-access-token': token}})
+            if(res.status ===200){
+                let auth = res.data
+                d(AuthActions.login(auth))
+                const cookies = new Cookies();
+                cookies.set('auth', auth)
+            }
+            d(AuthActions.setIsLoading(false))
+        }
+        if(!auth.isAuth && auth.token){
+            tokenLogin(auth.token)
+        }
+    }, [])
     return (
         <div>
             <Router>
                 <div>
-                    <TabNavigation>
-                        <Tab>
+                    <TabNavigation paddingTop={15}>
+                        <Tab onSelect={()=>{history.push('/')}}>
                             <Link to="/">Home</Link>
                         </Tab>
-                        <Tab>
+                        <Tab onSelect={()=>{history.push('/lessons')}}>
                             <Link to="/lessons">Lessons</Link>
+                        </Tab>
+                        <Tab float="right">
+                        {auth.isAuth?
+                            <Avatar size={45} name={auth.user.name}/>
+                        :
+                            <Login />
+                        }
                         </Tab>
                     </TabNavigation>
                     <Switch>
@@ -32,7 +67,6 @@ const HomePage = (props) =>{
                         <Route path='/'>
                             <div>
                                 placeholder homepage
-                                <p>user is {user.name}</p>
                             </div>
                         </Route>
                     </Switch>
