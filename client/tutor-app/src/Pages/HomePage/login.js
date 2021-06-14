@@ -4,7 +4,8 @@ import {
     Button,
     Popover,
     Pane,
-    TextInputField
+    TextInputField,
+    toaster
   } from 'evergreen-ui' 
 import Cookies from 'universal-cookie';
 import {useDispatch} from 'react-redux'
@@ -23,19 +24,18 @@ const Login = (props) =>{
       password: loginForm.password
     }
     let res = await req.post('/api/auth/login', body)
-    console.log('login: ', res.status, res.data)
     if(res.status === 200){
       const cookies = new Cookies();
       let auth = res.data
-      console.log('dispatching')
       d(AuthActions.login(auth))
       cookies.set('auth', auth)
+      toaster.success('Welcome Back')
     }
   }
   return(
     <Popover
       content={
-        <Pane width={300} height={250} display="flex" alignItems="center" justifyContent='center' flexDirection="column">
+        <Pane elevation={2} width={300} height={250} display="flex" alignItems="center" justifyContent='center' flexDirection="column">
           <TextInputField
             name="email"
             label="Email"

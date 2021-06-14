@@ -5,14 +5,15 @@ import {
     Table,
     Select,
     Icon,
-    AddIcon
+    AddIcon,
+    ShoppingCartIcon
 }from 'evergreen-ui'
 import LessonItem from './LessonItem'
 const List = (props) =>{
     let lessons = useSelector(state => state.lessons)
     let auth = useSelector(state => state.auth)
     const d = useDispatch()
-    let isAdmin = auth.user.admin === true
+    let isAdmin = auth.user && auth.user.admin === true
     let semesterOP = [{id: 1, display: 'All', value: true}, {id: 2, display: 'Fall', value: 2}, {id:3, display: 'Spring', value: 3}]
     //TODO implement backend semester category
     const [selectedSemester, setSelectedSemester] = useState(false)
@@ -28,9 +29,9 @@ const List = (props) =>{
     })
     return(
         <Table>
-            <Table.Head>
-                <Table.TextHeaderCell>Lesson</Table.TextHeaderCell>
-                <Table.TextHeaderCell>summary</Table.TextHeaderCell>
+            <Table.Head paddingRight='0'>
+                <Table.TextHeaderCell flex='0 1 200px'>Lesson</Table.TextHeaderCell>
+                <Table.TextHeaderCell flex='1 1'>summary</Table.TextHeaderCell>
                 <Table.TextHeaderCell flex='0 1 100px'>Semester
                     <SemesterSelect 
                         options = {semesterOP} 
@@ -39,13 +40,14 @@ const List = (props) =>{
                     />
                 </Table.TextHeaderCell>
                 <Table.TextHeaderCell flex='0 1 65px'>price</Table.TextHeaderCell>
-                {isAdmin && 
-                    <>
-                        <Table.TextHeaderCell flex='0 1 65px'>admin</Table.TextHeaderCell> 
-                        <Table.TextHeaderCell flex='0 1 40px'>
-                            <Icon onClick={createLesson} icon={AddIcon} size={20}/>
-                        </Table.TextHeaderCell>
-                    </>
+                {isAdmin ?
+                    <Table.TextHeaderCell flex='0 1 50px'>
+                        <Icon onClick={createLesson} icon={AddIcon} size={20}/>
+                    </Table.TextHeaderCell>
+                    :
+                    <Table.TextHeaderCell flex='0 1 50px'>
+                        <Icon icon={ShoppingCartIcon} size={20}/>
+                    </Table.TextHeaderCell>
                 }
             </Table.Head>
             <Table.Body>

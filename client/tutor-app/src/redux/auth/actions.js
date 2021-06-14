@@ -6,3 +6,6 @@ export const login = (user)=>{
 export const setIsLoading = (isLoading)=>{
     return {type: ActionTypes.SET_LOADING, payload: isLoading}
 }
+export const logout = () =>{
+    return {type: ActionTypes.LOGOUT, payload: {}}
+}

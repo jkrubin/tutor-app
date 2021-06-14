@@ -12,6 +12,8 @@ let auth = (state = initialState, action) =>{
             return {...state, ...action.payload, isAuth:true}
         case ActionTypes.SET_LOADING:
             return {...state, isLoading: action.payload}
+        case ActionTypes.LOGOUT:
+            return {user:{}, token:false, isAuth:false, isLoading:false}
         default:
             return state
     }

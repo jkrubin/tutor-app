@@ -15,12 +15,10 @@ import {
 import{
     TabNavigation,
     Tab,
-    Avatar,
-    Button,
-    Popover,
-    Pane
   } from 'evergreen-ui' 
 import Login from './login'
+import Profile from './profile'
+import SignUp from './signup'
 import './index.css'
 const HomePage = (props) =>{
     const d = useDispatch()
@@ -53,13 +51,19 @@ const HomePage = (props) =>{
                         <Tab onSelect={()=>{history.push('/lessons')}}>
                             <Link to="/lessons">Lessons</Link>
                         </Tab>
-                        <Tab float="right">
+                        <div className='manual-tab'>
                         {auth.isAuth?
-                            <Avatar size={45} name={auth.user.name}/>
-                        :
-                            <Login />
+                            <>
+                            <Profile />
+                            {/*ToDo Cart here*/}
+                            </>
+                        :   
+                            <>
+                                <SignUp />
+                                <Login />
+                            </>
                         }
-                        </Tab>
+                        </div>
                     </TabNavigation>
                     <div className='content'> 
                         <Switch>
