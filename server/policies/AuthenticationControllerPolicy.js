@@ -6,7 +6,7 @@ module.exports = {
 	register (req, res, next) {
 		const schema = {
 			email: Joi.string().email(),
-			password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+			password: Joi.string().regex(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{3,}$/),
 			admin: Joi.number().integer().min(0).max(1),
 			name: Joi.string()
 		}
@@ -20,7 +20,7 @@ module.exports = {
 					break
 				case 'password':
 					res.status(400).send({
-						error: 'password must be between 3 and 30 characters'
+						error: 'password must be between 3 and 30 characters and contain a number and letter'
 					})
 					break
 				case 'name':

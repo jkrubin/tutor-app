@@ -1,5 +1,5 @@
 let {Lesson, users} = require('../../models')
-
+let Joi = require('joi')
 module.exports = {
     async index(req, res){
         try{
@@ -26,13 +26,37 @@ module.exports = {
     },
     async createLesson(req, res){
         try{
-            let {name, description, data, categoryId, userId} = req.body
+            let {name, description, data, price, categoryId, userId} = req.body
             //ToDo : Get attachments and store in seperate table
+            const schema = {
+                name: Joi.string(),
+                description: Joi.string(),
+                price: Joi.number().min(0),
+            }
+            const {error, value} = Joi.validate({name,description,price}, schema)
+            if(error) {
+                let errorRes = ''
+                switch(error.details[0].context.key) {
+                    case 'name':
+                        errorRes = 'name must be a string'
+                        break
+                    case 'description':
+                        errorRes = 'name must be a string'
+                        break
+                    case 'price':
+                        errorRes = 'price must be a number'
+                        break
+                    case 'default':
+                        errorRes = 'error validating'
+                }
+                return res.status(500).send({error: errorRes})   
+            }
             let lesson = await Lesson.create({
                 name: name,
                 description: description,
                 data: data,
-                categoryId,
+                price: price,
+                // categoryId,
                 userId
             })
             return res.send(lesson)
@@ -44,12 +68,12 @@ module.exports = {
     async updateLesson(req, res){
         try{
             let {id} = req.params
-            let {name, description, data} = req.body
+            let {name, description, data, price} = req.body
             let lesson = await Lesson.findOne({where: {id}})
             if(!lesson){
                 return res.status(404).send({error: 'Lesson not found'})
             }
-            lesson = await lesson.update({name, description, data})
+            lesson = await lesson.update({name, description, data, price})
             return res.send(lesson)
         }catch(err){
             console.log(err)
