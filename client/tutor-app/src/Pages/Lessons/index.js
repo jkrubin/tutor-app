@@ -2,27 +2,34 @@ import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as lessonsActions from '../../redux/lessons/actions'
 import {get} from '../../req' 
+import {
+    Table,
+    Spinner
+}from 'evergreen-ui'
+import List from './List'
 const Lessons = (props) =>{
     const d = useDispatch()
     const lessons = useSelector(state => state.lessons)
+    const auth = useSelector(state => state.auth)
     let data = lessons.data
-    let isLoading = lessons.isLoading
-    useEffect(()=>{
+    let isLessonsLoading = lessons.isLoading
+    const callAPI = async()=>{
         d(lessonsActions.setLoading(true))
-        const callAPI = async()=>{
-            let data = await get('/api/lesson')
-            d(lessonsActions.getLessons(data.data))
-            d(lessonsActions.setLoading(false))
-        }
+        let data = await get('/api/lesson')
+        d(lessonsActions.getLessons(data.data))
+        d(lessonsActions.setLoading(false))
+    }
+    useEffect(()=>{
         callAPI()
     },[d])
     return(
         <div>
-            {isLoading?
-                <p>loading...</p>
+            {isLessonsLoading?
+                <Spinner />
                 :
                 <div>
                     <h3>Lessons:</h3>
+                    <List/>
                 </div>
             }
         </div>

@@ -21,6 +21,7 @@ import{
     Pane
   } from 'evergreen-ui' 
 import Login from './login'
+import './index.css'
 const HomePage = (props) =>{
     const d = useDispatch()
     const auth = useSelector(state => state.auth)
@@ -44,8 +45,8 @@ const HomePage = (props) =>{
     return (
         <div>
             <Router>
-                <div>
-                    <TabNavigation paddingTop={15}>
+                <div className='main'>
+                    <TabNavigation paddingTop={15} className='header'>
                         <Tab onSelect={()=>{history.push('/')}}>
                             <Link to="/">Home</Link>
                         </Tab>
@@ -60,16 +61,18 @@ const HomePage = (props) =>{
                         }
                         </Tab>
                     </TabNavigation>
-                    <Switch>
-                        <Route path='/lessons'>
-                            <Lessons/>
-                        </Route>
-                        <Route path='/'>
-                            <div>
-                                placeholder homepage
-                            </div>
-                        </Route>
-                    </Switch>
+                    <div className='content'> 
+                        <Switch>
+                            <Route path='/lessons'>
+                                <Lessons/>
+                            </Route>
+                            <Route path='/'>
+                                <div>
+                                    placeholder homepage
+                                </div>
+                            </Route>
+                        </Switch>
+                    </div>
                 </div>
             </Router>
         </div>
