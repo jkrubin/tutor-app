@@ -7,6 +7,8 @@ import {
     Spinner
 }from 'evergreen-ui'
 import List from './List'
+import LessonList from './LessonList'
+import './style.css'
 const Lessons = (props) =>{
     const d = useDispatch()
     const lessons = useSelector(state => state.lessons)
@@ -23,14 +25,12 @@ const Lessons = (props) =>{
         callAPI()
     },[d])
     return(
-        <div>
+        <div className='lesson-container'>
+            <h1 style={{marginTop:0}}>Lessons:</h1>
             {isLessonsLoading?
                 <Spinner />
                 :
-                <div>
-                    <h3>Lessons:</h3>
-                    <List/>
-                </div>
+                <LessonList lessons = {lessons}/>
             }
         </div>
     )

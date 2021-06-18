@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Lessons from '../Lessons'
@@ -15,15 +15,24 @@ import {
 import{
     TabNavigation,
     Tab,
+    Icon,
+    ShoppingCartIcon,
   } from 'evergreen-ui' 
 import Login from './login'
 import Profile from './profile'
 import SignUp from './signup'
+import Cart from '../Cart'
+import Content from './Content'
+import Purchases from '../Purchases'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAtom } from "@fortawesome/free-solid-svg-icons";
 import './index.css'
 const HomePage = (props) =>{
     const d = useDispatch()
     const auth = useSelector(state => state.auth)
-    const history = useHistory()
+    const cart = useSelector(state => state.cart)
+    const [tabHovered, setTabHovered] = useState(0)
+
     useEffect(()=>{
         const tokenLogin = async(token)=>{
             d(AuthActions.setIsLoading(true))
@@ -43,39 +52,84 @@ const HomePage = (props) =>{
     return (
         <div>
             <Router>
-                <div className='main'>
-                    <TabNavigation paddingTop={15} className='header'>
-                        <Tab onSelect={()=>{history.push('/')}}>
-                            <Link to="/">Home</Link>
-                        </Tab>
-                        <Tab onSelect={()=>{history.push('/lessons')}}>
-                            <Link to="/lessons">Lessons</Link>
-                        </Tab>
-                        <div className='manual-tab'>
-                        {auth.isAuth?
-                            <>
-                            <Profile />
-                            {/*ToDo Cart here*/}
-                            </>
-                        :   
-                            <>
-                                <SignUp />
-                                <Login />
-                            </>
-                        }
+                <div className='main' >
+                    <div className='header-wrapper'>
+                        <TabNavigation paddingTop={15} className='header' className='header'>
+                            <div className='header-logo'>
+                                <div className='logo-miniborder'></div>
+                                <img src={require('../../Assets/logo_1.png').default} />
+                            </div>
+                            <div className='header-left'>
+                                <Link to="/"
+                                    onMouseEnter={()=>{setTabHovered('home')}}
+                                    onMouseLeave={()=>{setTabHovered(false)}}
+                                    className={`tab-item ${tabHovered == 'home'? 'tab-hovered' : ''}`}
+                                >
+                                    <div className={`tab-cover ${tabHovered == 'home'? 'cover-active' : ''}`}>
+                                        <FontAwesomeIcon icon={faAtom} size={'lg'} />
+                                    </div>
+                                    <Tab >Home</Tab>
+                                </Link>
+                                <Link to="/lessons"
+                                    onMouseEnter={()=>{setTabHovered('lessons')}}
+                                    onMouseLeave={()=>{setTabHovered(false)}}
+                                    className={`tab-item ${tabHovered == 'lessons'? 'tab-hovered' : ''}`}>
+                                    <div className={`tab-cover ${tabHovered == 'lessons'? 'cover-active' : ''}`}>
+                                        <FontAwesomeIcon icon={faAtom} size={'lg'} />
+                                    </div>
+                                    <Tab>Lessons</Tab>
+                                </Link>
+                                <Link to="/" className='tab-container'
+                                    onMouseEnter={()=>{setTabHovered('link')}}
+                                    onMouseLeave={()=>{setTabHovered(false)}}
+                                    className={`tab-item ${tabHovered == 'link'? 'tab-hovered' : ''}`}>
+                                    <div className={`tab-cover ${tabHovered == 'link'? 'cover-active' : ''}`}>
+                                        <FontAwesomeIcon icon={faAtom} size={'lg'} />
+                                    </div>
+                                    <div className='tab-item'>
+                                        Link
+                                    </div>
+                                </Link>
+                            </div>
+                            <div className='header-right'>
+                            {auth.isAuth?
+                                <>
+                                    <Link to='/cart'>
+                                        <div className='cart-button right-nav-button'>
+                                            <Icon icon={ShoppingCartIcon} size={30}/>
+                                            <div className='cart-number'>
+                                                {cart.lessons.length}
+                                            </div>
+                                        </div>
+                                    </Link>
+                                    <Profile />
+                                </>
+                            :   
+                                <>
+                                    <SignUp />
+                                    <Login />
+                                </>
+                            }
+                            </div>
+                        </TabNavigation>
+                    </div>
+                    <div className='background' style={{}}>
+                        <div className='content'> 
+                            <Switch>
+                                <Route path='/purchases'>
+                                    <Purchases />
+                                </Route>
+                                <Route path='/cart'>
+                                    <Cart />
+                                </Route>
+                                <Route path='/lessons'>
+                                    <Lessons/>
+                                </Route>
+                                <Route path='/'>
+                                    <Content />
+                                </Route>
+                            </Switch>
                         </div>
-                    </TabNavigation>
-                    <div className='content'> 
-                        <Switch>
-                            <Route path='/lessons'>
-                                <Lessons/>
-                            </Route>
-                            <Route path='/'>
-                                <div>
-                                    placeholder homepage
-                                </div>
-                            </Route>
-                        </Switch>
                     </div>
                 </div>
             </Router>

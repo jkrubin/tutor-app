@@ -1,8 +1,9 @@
 import {createStore, combineReducers} from 'redux'
 
 import auth from './auth'
-import data from './data'
+import cart from './cart'
 import lessons from './lessons'
-const reducers = combineReducers({ auth, lessons })
+import purchases from './purchases'
+const reducers = combineReducers({ auth, lessons, cart, purchases })
 
 export default createStore(reducers, undefined, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())

@@ -6,13 +6,17 @@ import {
     Select,
     Icon,
     AddIcon,
-    ShoppingCartIcon
+    MinusIcon,
+    ShoppingCartIcon,
+    toaster
 }from 'evergreen-ui'
+import * as cartActions from '../../redux/cart/actions'
 import LessonItem from './LessonItem'
 const List = (props) =>{
-    let lessons = useSelector(state => state.lessons)
+    let {lessons} = props
     let auth = useSelector(state => state.auth)
     const d = useDispatch()
+    const cart = useSelector(state => state.cart)
     let isAdmin = auth.user && auth.user.admin === true
     let semesterOP = [{id: 1, display: 'All', value: true}, {id: 2, display: 'Fall', value: 2}, {id:3, display: 'Spring', value: 3}]
     //TODO implement backend semester category

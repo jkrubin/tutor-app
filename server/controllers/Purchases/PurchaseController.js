@@ -17,6 +17,19 @@ const extractUserFromToken = async(token) =>{
         })
     })
 }
+const parsePurchase = (purchase)=>{
+    try{
+        if(!purchase){
+            return false
+        }
+        purchase.history = parseJSON(purchase.history)
+        purchase.lessons = parseJSON(purchase.lessons)
+        return purchase
+    }catch(err){
+        console.log(err)
+        return purchase
+    }
+}
 module.exports = {
     async index(req, res){
         try{
@@ -142,4 +155,74 @@ module.exports = {
             return res.status(500).send({error: 'Server error'})
         }
     },
+    async adminGetPurchases(req, res){
+        try{
+            let purchases = await Purchase.findAll({
+                include:[
+                    {
+                        model:Lesson,
+                        attributes: ['id'],
+                        through:{PurchaseLesson, attributes: []}
+                    },
+                    {
+                        model:users,
+                    }
+                ]
+            })
+            return res.send(purchases)
+        }catch(err){
+            console.log(err)
+            res.status(500).send({error: 'Server Error Getting purchases'})
+        }
+    },
+    async userGetPurchases(req, res){
+        try{
+            const token = req.headers['x-access-token']
+            let user = await extractUserFromToken(token)
+            if(!user){
+                return res.status(401).send({error: 'User account not found. Please log in or check account status'})
+            }
+
+            let purchases = await Purchase.findAll({
+                where: {userId: user.id},
+                include:[
+                    {
+                        model:Lesson,
+                        attributes: ['id'],
+                        through:{PurchaseLesson, attributes: []}
+                    },
+                ]
+            })
+            for(let i = 0; i < purchases.length; i++){
+                parsePurchase(purchases[i])
+            }
+            return res.send(purchases)
+        }catch(err){
+            console.log(err)
+            res.status(500).send({error: 'Server Error Getting purchases'})
+        }
+    },
+    async adminGetPurchaseByCode(req, res){
+        try{
+            const {code} = req.params
+            let purchase = await Purchase.findOne({
+                where:{code},
+                include:[
+                    {model: users}, 
+                    {
+                        model:Lesson,
+                        attributes: ['id'],
+                        through:{PurchaseLesson, attributes: []}
+                    }
+                ]
+            })
+            if(!purchase){
+                return res.status(404).send({error: 'No purchase found with this code'})
+            }
+            return res.send(purchase)
+        }catch(err){
+            console.log(err)
+            return res.status(500).send({error: 'Server Error getting purchase'})
+        }
+    }
 }

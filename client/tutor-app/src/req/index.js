@@ -25,7 +25,6 @@ export async function post(path, body, params = {}){
     let data
     try{
         data = await axios.post(url+path, body, finalParams)
-        if(data.status !== 200)
         return data
     }catch(err){
         toaster.danger(err.response.data.error)

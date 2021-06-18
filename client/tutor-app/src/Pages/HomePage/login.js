@@ -24,6 +24,7 @@ const Login = (props) =>{
       password: loginForm.password
     }
     let res = await req.post('/api/auth/login', body)
+    console.log(res)
     if(res.status === 200){
       const cookies = new Cookies();
       let auth = res.data

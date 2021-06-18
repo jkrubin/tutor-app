@@ -2,7 +2,16 @@ const express = require('express');
 let router = express.Router();
 let PurchaseController = require('./PurchaseController')
 let AuthenticationController = require('../Auth/AuthenticationController')
-router.get('/', PurchaseController.index)
+
+router.get('/', PurchaseController.userGetPurchases)
+
+router.get('/admin', 
+    AuthenticationController.isAdmin,
+    PurchaseController.adminGetPurchases)
+
+router.get('/admin/:code',
+    AuthenticationController.isAdmin,
+    PurchaseController.adminGetPurchaseByCode)
 
 router.get('/lessons', PurchaseController.getPurchasedLessons)
 

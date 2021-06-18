@@ -1,8 +1,54 @@
+:root{
+  --green1: #036628;
+  --green2: #104d38;
+}
 .App {
   text-align: center;
 }
-
-.content{
+p{
+  color: #666;
+  font-size: 1.125rem;
+  line-height: 1.77778;
+  margin: 0px;
+  text-align: left;
+}
+h1{
+  color:black;
+  font-size: 2.625rem;
+  line-height: 1.28571;
+  padding-bottom: 1.875rem;
+  padding: 0 0 .9375rem;
+  margin: 0;
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: normal;
+}
+h3{
+  color:black;
+  font-size: 1.125rem;
+  line-height: 1.44444;
+  padding: 0;
+  font-weight: 500;
+  margin:0px;
+}
+/* .content{
   width: 900px;
   margin: auto;
+  background-color: white;
+  min-height: calc(100vh - 70px);
+  box-shadow: 5px 9px 11px 0px black;
+} */
+
+.hover-cover{
+  position: absolute;
+  height: 0px;
+  transition: 100ms;
+  overflow: hidden;
+  background-color: rgba(101, 32, 165, 0.623);
+  border-top: 5px solid rgb(80, 9, 80);
+}
+
+.FA-icon svg{
+  width: 100% !important;
+  height: 100% !important;
 }
