@@ -28,9 +28,7 @@ const Content = (props) =>{
     return (
         <Pane className='content-homepage'>
             <div className='homepage-banner'>
-                <img src = 'https://image.shutterstock.com/image-photo/milticultural-group-young-people-laughing-600w-1272182866.jpg'/>
             </div> 
-            <faAtom />
             <div className='homepage-content'>
                 {featuresDisplay}
             </div>

@@ -1,10 +1,22 @@
 .homepage-banner{
     width: 100%;
-    height: 450px;
+    height: 750px;
     margin-bottom:40px;
-    background-color: rgb(30, 59, 6);
+    background-image: url('https://previews.123rf.com/images/olegdudko/olegdudko1510/olegdudko151012061/47336621-laboratory-scientists-.jpg');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
 }
 
+@media screen and (max-width: 1250px){
+    .homepage-banner{
+        height: 550px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .homepage-banner{
+        height: 350px;
+    }
+}
 .homepage-banner img{
     height:450px;
     width: auto;

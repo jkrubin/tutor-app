@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken')
+const config = require('../config/authConfig')
+const {users} = require('../models')
 module.exports = {
     tryStringify(obj){
         try{
@@ -22,5 +25,20 @@ module.exports = {
         }catch(err){
             return json
         }
+    },
+    async extractUserFromToken (token){
+        return new Promise((resolve, reject)=>{
+            if(!token){
+                resolve(false)
+            }
+            jwt.verify(token, config.authentication.jwtSecret, async function(err, decrypted){
+                if(err){
+                    resolve(false)
+                }else{
+                    const user = await users.findById(decrypted.id)
+                    resolve(user)
+                }
+            })
+        })
     }
 }

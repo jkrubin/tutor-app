@@ -1,10 +1,11 @@
-let {Lesson, users} = require('../../models')
+let {Lesson, Purchase, Attachment, PurchaseLesson, users} = require('../../models')
 let Joi = require('joi')
+const {extractUserFromToken} = require('../Auth/AuthenticationController')
+const {parseLesson} = require('./helpers')
 module.exports = {
     async index(req, res){
         try{
             let lessons = await Lesson.findAll({})
-            //ToDo: trim lessons to match user access
             return res.send(lessons)
         }catch(err){
             console.log(err)
@@ -13,7 +14,53 @@ module.exports = {
     },
     async getLesson(req, res){
         try{
-            let {id} = req.params
+            let {LessonId} = req.params
+            const token = req.headers['x-access-token']
+            let user = await extractUserFromToken(token)
+            if(user){
+                let isOwned = await Purchase.findOne({
+                    where:{userId: user.id, status: 1},
+                    include: {
+                        model: Lesson,
+                        through:{
+                            model: PurchaseLesson,
+                            required: true,
+                            where:{LessonId, userId: user.id},
+                            attributes: []
+                        },
+                        attributes:['id']
+                    }
+                })
+                let lesson = await Lesson.findOne({
+                    where:{id:LessonId},
+                    include:[
+                        {
+                            model:Purchase,
+                            required: true,
+                            where:{userId: user.id, status: 1},
+                            attributes:['id'],
+                            through: {
+                                PurchaseLesson,
+                                where:{LessonId, userId: user.id},
+                                attributes:[]
+                            }
+                        },
+                        {
+                            model: Attachment
+                        }
+                    ]
+                })
+                parseLesson(lesson)
+                return res.send(lesson)
+            }else{
+                lesson = await Lesson.findOne({
+                    where: {id: LessonId},
+                    include:[
+                        {model: Attachment, attributes:['id', 'name', 'description']}
+                    ]
+                })
+                return res.send(lesson)
+            }
             let lesson = await Lesson.findOne({where:{id}})
             if(!lesson){
                 return res.status(404).send({error: 'Lesson Not found'})

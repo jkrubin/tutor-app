@@ -15,6 +15,9 @@ import * as cartActions from '../../redux/cart/actions'
 import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './style.css'
+import {
+    Link
+  } from "react-router-dom"
 const LessonItem = (props) =>{
     const {lesson, isHovered, hoverCB, editCB, isAdmin} = props
     const d = useDispatch()
@@ -36,7 +39,9 @@ const LessonItem = (props) =>{
         >
             <div className='FA-icon lesson-item-img'>
                 <div className='lesson-item-svg'>
-                    <FontAwesomeIcon icon={faChalkboardTeacher} className='lesson-item-icon' />
+                    <Link to ={`/lessons/${lesson.id}/view`}>
+                        <FontAwesomeIcon icon={faChalkboardTeacher} className='lesson-item-icon' />
+                    </Link>
                 </div>
             </div>
             <div className='lesson-item-info'>

@@ -103,6 +103,21 @@ module.exports = {
 			}
 		})
 	},
+	async extractUserFromToken(token){
+		return new Promise((resolve, reject)=>{
+			if(!token){
+				resolve(false)
+			}
+			jwt.verify(token, config.authentication.jwtSecret, async function(err, decrypted){
+				if(err){
+					resolve(false)
+				}else{
+					const user = await users.findById(decrypted.id)
+					resolve(user)
+				}
+			})
+		})
+	},
 	async getAllUsers(req, res) {
 		try{
 			const userArr = await users.findAll({

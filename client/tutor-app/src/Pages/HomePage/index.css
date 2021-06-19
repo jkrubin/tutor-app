@@ -5,7 +5,7 @@
 
 }
 .background{
-    margin-top:71px;
+    margin-top:67px;
     padding-top:1px;
     min-height: calc(100vh - 72px);
 }
@@ -76,13 +76,11 @@
 .content-homepage{
     
 }
-.main{
-    margin-top: 70px;
-}
+
 .header-wrapper{
     position:fixed;
     top:0px;
-    z-index: 100;
+    z-index: 10;
     width:100%;
     background-color:white;
 }

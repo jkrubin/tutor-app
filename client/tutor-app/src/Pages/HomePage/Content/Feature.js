@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Feature = (props) =>{
     const {img, title, body, isFlipped} = props
-    console.log(faAtom)
     /*
             <div className='feature-background feature-c3'></div>
             <div className='feature-background feature-c2'></div>

@@ -9,8 +9,17 @@ import {
 import List from './List'
 import LessonList from './LessonList'
 import './style.css'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+
+} from "react-router-dom"
+import { useRouteMatch } from 'react-router'
 const Lessons = (props) =>{
     const d = useDispatch()
+    const match = useRouteMatch()
+    console.log(match)
     const lessons = useSelector(state => state.lessons)
     const auth = useSelector(state => state.auth)
     let data = lessons.data
@@ -25,13 +34,22 @@ const Lessons = (props) =>{
         callAPI()
     },[d])
     return(
-        <div className='lesson-container'>
-            <h1 style={{marginTop:0}}>Lessons:</h1>
-            {isLessonsLoading?
-                <Spinner />
-                :
-                <LessonList lessons = {lessons}/>
-            }
+        <div>
+            <Switch>
+                <Route path ={`${match.path}/:id/view`}>
+                    VIEW
+                </Route>
+                <Route path ={`${match.path}/`}>
+                    <div className='lesson-container'>
+                        <h1 style={{marginTop:0}}>Lessons:</h1>
+                        {isLessonsLoading?
+                            <Spinner />
+                            :
+                            <LessonList lessons = {lessons}/>
+                        }
+                    </div>
+                </Route>
+            </Switch>
         </div>
     )
 }
