@@ -31,25 +31,41 @@
 
 .lesson-item-container{
     min-width: 400px;
-    max-width: 600px;
-    max-height: 215px;
+    max-width: 500px;
+    height: fit-content;
     margin-top: 25px;
     margin-left: 7px;
     margin-right: 7px;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column;
     border-right: 0;
-    border-radius: 1000px 0 0 1000px;
     cursor: pointer;
     flex-wrap: wrap;
+    overflow: hidden;
+    background-color: white;
 }
-
+.lesson-item-container.rounded-left{
+    border-top-left-radius: 1000px;
+    border-bottom-left-radius: 1000px;
+}
+.lesson-item-container.rounded-right{
+    border-top-right-radius: 1000px;
+    border-bottom-right-radius: 1000px;
+}
+.lesson-item-container.hovered{
+    box-shadow: 0 0 2px var(--green1) !important;
+}
+.lesson-item-top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 155px;
+}
 .lesson-toolbar-item{
     display: flex;
     flex-direction: row;
     align-items: center;
+    min-width: 100px;
 }
 .lesson-item-info{
     flex:1 1;
@@ -58,7 +74,17 @@
     font-size: 1.125rem;
     line-height: 1.55556;
 }
-
+.lesson-item-name{
+    margin: 0;
+    text-align: left;
+}
+.lesson-item-name h3{
+    margin:0;
+}
+.lesson-item-description{
+    max-height: 130px;
+    overflow-y: scroll;
+}
 @media only screen and (max-width:600px){
     .lesson-item-info{
         font-size: .9rem;
@@ -74,10 +100,12 @@
     padding-right: 8px;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    width: 100%;
+    justify-content: flex-end;
+    width: auto;
     padding-top: 8px;
     padding-bottom: 5px;
+    background-color: var(--green1);
+    color:white;
     
 }
 

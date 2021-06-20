@@ -53,15 +53,24 @@
     overflow: hidden;
     width: inherit;
     bottom:0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tab-cover-icon{
+    width: 30px;
+    height: 30px;
+    margin-top: auto;
+    color: white;
+    margin-bottom: auto;
 }
 .tab-cover.cover-active{
-    background-color: rgba(101, 32, 165, 0.623);
-    border-top: 5px solid rgb(80, 9, 80);
-    height: 32px;
+    background-color: rgba(3, 102, 40, .623);
+    border-top: 5px solid var(--green2);
+    height: 43px;
     align-items: flex-start;
     display: flex;
     justify-content: center;
-    padding-top: 15px;
 }
 .tab-container{
     display: flex;
@@ -74,7 +83,6 @@
 }
 
 .content-homepage{
-    
 }
 
 .header-wrapper{

@@ -27,7 +27,19 @@ const LessonList = (props) =>{
         d(LessonActions.addLesson({id: 0, name:'', description:''}))
         setLessonEdit(0)
     }
-    const lessonsList = lessons.data.map((lesson) =>{
+    // const [windowSize, setWindowSize] = useState({height: window.innerHeight, width: window.innerWidth})
+    // useEffect(()=>{
+    //     const handleResize = () =>{
+    //         setWindowSize({height: window.innerHeight, width: window.innerWidth})
+    //     }
+
+    //     window.addEventListener('resize', handleResize)
+    //     return() =>{
+    //         window.removeEventListener('resize', handleResize)
+    //     }
+    // })
+
+    const lessonsList = lessons.data.map((lesson, i) =>{
         return(
             <LessonDisplay key={lesson.id} lesson={lesson} isAdmin={isAdmin} isHovered={hovered === lesson.id} hoverCB={setHovered}/>
         )

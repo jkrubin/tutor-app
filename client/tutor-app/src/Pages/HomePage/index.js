@@ -66,7 +66,9 @@ const HomePage = (props) =>{
                                     className={`tab-item ${tabHovered == 'home'? 'tab-hovered' : ''}`}
                                 >
                                     <div className={`tab-cover ${tabHovered == 'home'? 'cover-active' : ''}`}>
-                                        <FontAwesomeIcon icon={faAtom} size={'lg'} />
+                                        <div className='FA-icon tab-cover-icon'>
+                                            <FontAwesomeIcon icon={faAtom} />
+                                        </div>
                                     </div>
                                     <Tab >Home</Tab>
                                 </Link>
@@ -75,7 +77,9 @@ const HomePage = (props) =>{
                                     onMouseLeave={()=>{setTabHovered(false)}}
                                     className={`tab-item ${tabHovered == 'lessons'? 'tab-hovered' : ''}`}>
                                     <div className={`tab-cover ${tabHovered == 'lessons'? 'cover-active' : ''}`}>
-                                        <FontAwesomeIcon icon={faAtom} size={'lg'} />
+                                        <div className='FA-icon tab-cover-icon'>
+                                            <FontAwesomeIcon icon={faAtom} />
+                                        </div>
                                     </div>
                                     <Tab>Lessons</Tab>
                                 </Link>

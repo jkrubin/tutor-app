@@ -6,7 +6,7 @@ import {
     Table,
     Spinner
 }from 'evergreen-ui'
-import List from './List'
+//import List from './List'
 import LessonList from './LessonList'
 import './style.css'
 import {
@@ -28,6 +28,8 @@ const Lessons = (props) =>{
         d(lessonsActions.setLoading(true))
         let data = await get('/api/lesson')
         d(lessonsActions.getLessons(data.data))
+        let purchased = await get('/api/purchase/lessons')
+        d(lessonsActions.getPurchased(purchased.data))
         d(lessonsActions.setLoading(false))
     }
     useEffect(()=>{

@@ -2,9 +2,21 @@ import axios from 'axios'
 import store from '../redux'
 import { toaster } from 'evergreen-ui'
 const url = 'http://localhost:8081'
-export async function get(path, params){
+export async function get(path, params = {}){
     let state = store.getState()
-    let data = await axios.get(url+path, params)
+    let token = false
+    try{
+        token = state.auth.token
+    }catch(err){
+
+    }
+    let finalParams = {
+        headers:{
+            'x-access-token': token
+        },
+        ...params
+    }
+    let data = await axios.get(url+path, finalParams)
     return data
 }
 

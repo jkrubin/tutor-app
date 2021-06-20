@@ -6,8 +6,11 @@ import {
     MinusIcon,
     Button
 }from 'evergreen-ui'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import * as cartActions from '../../redux/cart/actions'
+import LessonDisplay from '../Lessons/LessonDisplay'
+//import {CartItem} from './CartItem'
 import './style.css'
 const Cart = (props) =>{
     const d = useDispatch()
@@ -18,9 +21,6 @@ const Cart = (props) =>{
         price: '15%',
         remove: '20%'
     }
-    const removeFromCart =(id) =>{
-        d(cartActions.removeCart(id))
-    }
     let cartTotal = 0
     let cartDisplay = cart.lessons.map((id) =>{
         let lesson = lessons.data.find(item=> item.id === id)
@@ -29,37 +29,67 @@ const Cart = (props) =>{
         }
         cartTotal += Number.parseInt(lesson.price)
         return (
-            <Table.Row key={lesson.id}>
-                <Table.TextCell flex={`1 1 ${width.lesson}`}>{lesson.name}</Table.TextCell>
-                <Table.TextCell flex ={`0 1 ${width.price}`}>{lesson.price}</Table.TextCell>
-                <Table.TextCell flex ={`0 1 ${width.remove}`}>
-                    <Icon onClick={()=>{removeFromCart(lesson.id)}} icon={MinusIcon} size={20} />
-                </Table.TextCell>
-            </Table.Row>
+            <div className='cart-item'>
+                <LessonDisplay lesson={lesson} roundedBorder={0} cartDisplay={true} />
+            </div>
         )
     })
+
     return (
-        <div className='content-cart'>
-            <Pane width="400px" className='cart-panel'>
-                <Table>
-                    <Table.Head>
-                        <Table.TextHeaderCell flex={`1 1 ${width.lesson}`}>Lesson</Table.TextHeaderCell>
-                        <Table.TextHeaderCell flex ={`0 1 ${width.price}`}>Price</Table.TextHeaderCell>
-                        <Table.TextHeaderCell flex ={`0 1 ${width.remove}`}>Remove</Table.TextHeaderCell>
-                    </Table.Head>
-                    <Table.Body>
-                        {cartDisplay}
-                        <Table.Row key='total' >
-                            <Table.TextCell flex='1 1'></Table.TextCell>
-                            <Table.TextCell ><h3>TOTAL: {cartTotal}</h3></Table.TextCell>
-                        </Table.Row>
-                    </Table.Body>
-                </Table>
-            </Pane>
-            <div className='checkout-panel'>
-                <h3>Checkout</h3>
-                <Button disabled>Pay With Stripe</Button>
-                <Button >Pay </Button>
+        <div className='content-cart content-page'>
+            <h1 className='content-header'>Cart</h1>
+            <div className='cart-wrapper'>
+                <div className='cart-body'>
+                    <h1 style={{textAlign:'left', width: '100%', marginLeft:'10px'}}>My Cart - {cart.lessons.length} items</h1>
+                    <div className='cart-header'>
+                        <div className='cart-header-flex'>
+                            <div className='cart-header-item header-lesson'>
+                                <h3>Lesson</h3>
+                            </div>
+                            <div className='cart-header-item cart-header-sub-flex'>
+                                <div className='header-price'>
+                                    <h3>Price</h3>
+                                </div>
+                                <div className='header-remove'>
+                                    <h3>Remove</h3>
+                                </div>
+                            </div>
+                        </div>                
+                    </div>
+                    {cart.lessons.length == 0?
+                        <div className='cart-empty'>
+                            <h3>Go to <Link to='/lessons'>Lessons</Link> to add to your cart</h3>
+                        </div>
+                    :
+                        cartDisplay
+                    }
+                    <div className='cart-header cart-footer'>
+                        <div className='cart-header-flex'>
+                            <div className='cart-header-item header-lesson'>
+                                <h3>Total Price</h3>
+                            </div>
+                            <div className='cart-header-item cart-header-sub-flex'>
+                                <div className='header-price'>
+                                    <h3>{cartTotal}</h3>
+                                </div>
+                                <div className='header-remove'>
+                                </div>
+                            </div>
+                        </div>                
+                    </div>
+                    <div className='cart-checkout'>
+                        <div className='cart-checkout-flex'>
+                            <div className='cart-checkout-item' style={{flex: 1}}>
+                            </div>
+                            <div className='cart-checkout-item'>
+                                <Button disabled> Pay With Stripe</Button>
+                            </div>
+                            <div className='cart-checkout-item'>
+                                <Button disabled={cart.lessons.length === 0}> Pay With Venmo</Button>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
             </div>
         </div>
     )

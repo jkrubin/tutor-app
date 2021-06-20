@@ -1,7 +1,151 @@
 .content-cart{
     display:flex;
+    flex-direction: column;
 
 }
 .cart-panel{
     display:inline;
+}
+
+.content-header{
+    text-align: left;
+}
+.cart-empty{
+    background-color: lightgray;
+    height:70px;
+    width: calc(100% - 14px);
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.cart-empty h3{
+    font-size: 1.5rem;
+    line-height: 1.44444;
+    margin: auto;
+    color:#7d7d7d;
+}
+.cart-header{
+    min-width: 600px;
+    width: 100%;
+}
+.cart-header-flex{
+    border-radius: 5px 5px 0 0;
+    min-width: 400px;
+    overflow: hidden;
+    height: 60px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin: 7px 7px 7px 7px;
+    background-color: var(--green1);
+    color: white;
+    padding-left: 0px;
+}
+.cart-footer .cart-header-flex{
+    border-radius: 0 0 5px 5px;
+}
+.cart-footer .header-lesson{
+    text-align: right;
+    padding-right: 5px;
+}
+.header-lesson{
+    flex: 1;
+}
+.cart-header-flex h3{
+    color:white;
+
+}
+.cart-header-sub-flex{
+    padding: 10px 10px 10px 20px;
+    width: 200px;
+    justify-content: space-between;
+    font-size: 1.1;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+.cart-body{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    margin:auto;
+    background-color: white;
+    padding:20px;
+    border-radius: 5px;
+    box-shadow: 0 0 2px black;
+}
+
+.cart-checkout{
+    width: 100%;
+}
+.cart-checkout-flex{
+    border-radius: 0 0 5px 5px;
+    overflow: hidden;
+    height: 60px;
+    align-items: center;
+    display:flex;
+    flex-direction: row;
+    margin: 7px 7px 7px 7px;
+    padding-left:0px;
+    padding-right:20px;
+}
+.cart-checkout-item{
+    padding-left:5px;
+    padding-right: 5px;
+}
+.cart-item{
+    width: 100%;
+}
+.cart-item .lesson-item-top{
+    background-color: var(--green1);
+    padding: 10px;
+    flex: 1;
+    height: auto;
+}
+.cart-item .lesson-item-container{
+    margin: 7px;
+    flex-direction: row;
+    max-width: 1000px;
+    border-radius: 4px;
+}
+.cart-item .lesson-item-img{
+    width: 75px;
+}
+
+.cart-item .lesson-item-svg{
+    height: 50px;
+}
+.cart-item .lesson-item-svg svg{
+    color: white;
+}
+.cart-item h3{
+    color:white;
+    font-size:1.4em;
+}
+.cart-item .lesson-item-description{
+    display:none;
+}
+.cart-item .lesson-item-price{
+    font-size: 1.22em;
+    color: var(--green1);
+}
+.cart-item .lesson-item-toolbar{
+    padding: 10px 10px 10px 20px;
+    width: 200px;
+    background-color: lightgray;
+    color: #666;
+    justify-content: space-between;
+    font-size: 1.1;
+    align-items: center;
+}
+.cart-item .lesson-item-add svg{
+    width: 1.5em !important;
+    height: 1.5em !important;
+    color: red
+}
+
+.cart-item .lesson-toolbar-item{
+    min-width: 0;
+    width: 50px;
 }

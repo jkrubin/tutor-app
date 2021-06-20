@@ -5,6 +5,9 @@
 .App {
   text-align: center;
 }
+.background{
+  background-color: #fcfcfc;
+}
 p{
   color: #666;
   font-size: 1.125rem;
@@ -44,11 +47,12 @@ h3{
   height: 0px;
   transition: 100ms;
   overflow: hidden;
-  background-color: rgba(101, 32, 165, 0.623);
-  border-top: 5px solid rgb(80, 9, 80);
+  background-color: rgb(3, 102, 40.623);
+  border-top: 5px solid var(--green2);
 }
 
 .FA-icon svg{
   width: 100% !important;
   height: 100% !important;
 }
+
