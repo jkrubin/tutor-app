@@ -39,10 +39,10 @@ const Cart = (props) =>{
         <div className='content-cart content-page'>
             <h1 className='content-header'>Cart</h1>
             <div className='cart-wrapper'>
-                <div className='cart-body'>
+                <div className='cart-body content-body'>
                     <h1 style={{textAlign:'left', width: '100%', marginLeft:'10px'}}>My Cart - {cart.lessons.length} items</h1>
                     <div className='cart-header'>
-                        <div className='cart-header-flex'>
+                        <div className='cart-header-flex header-flex'>
                             <div className='cart-header-item header-lesson'>
                                 <h3>Lesson</h3>
                             </div>
@@ -64,7 +64,7 @@ const Cart = (props) =>{
                         cartDisplay
                     }
                     <div className='cart-header cart-footer'>
-                        <div className='cart-header-flex'>
+                        <div className='cart-header-flex header-flex'>
                             <div className='cart-header-item header-lesson'>
                                 <h3>Total Price</h3>
                             </div>

@@ -10,7 +10,7 @@ import {
 import Cookies from 'universal-cookie';
 import {useDispatch} from 'react-redux'
 import * as AuthActions from '../../redux/auth/actions'
-const Login = (props) =>{
+const Login = ({isMobile}) =>{
   const [loginForm, updateForm] = useState({email: '', password: ''})
   const d = useDispatch()
 
@@ -51,7 +51,11 @@ const Login = (props) =>{
           <Button onClick={handleSubmit}>Login</Button>
         </Pane>
       } >
-        <Button>Login</Button>
+        {isMobile?
+            <div className='hamburger-tab'><h3>Login</h3></div>
+          :
+            <Button>Login</Button>
+        }
     </Popover>
   )
 }

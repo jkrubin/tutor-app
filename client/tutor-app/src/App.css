@@ -7,6 +7,7 @@
 }
 .background{
   background-color: #fcfcfc;
+
 }
 p{
   color: #666;
@@ -56,3 +57,47 @@ h3{
   height: 100% !important;
 }
 
+.main-button{
+  background-color: var(--green1) !important;
+  color: white !important;
+  font-size: 1.3em !important;
+}
+
+.content-body{
+  display:flex;
+  margin:auto;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 900px;
+  background-color: white;
+  padding:20px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px black;
+}
+
+.content-table-head{
+  width: 100%;
+}
+
+.header-flex{
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  height: 60px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin: 7px 7px 7px 7px;
+  background-color: var(--green1);
+  color: white;
+  padding-left: 0px;
+}
+.header-flex h3{
+  color:white;
+}
+
+@media screen and (max-width: 600px){
+  .content-body{
+    width: inherit;
+  }
+}

@@ -1,61 +1,61 @@
 .header{
     display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid #666;
+    box-shadow: 0 1px 2px #666;
 
+}
+.header-content{
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 30px;
+    margin-left: 161px;
+}
+.header-content a {
+    text-decoration: none;
 }
 .background{
     margin-top:67px;
     padding-top:1px;
     min-height: calc(100vh - 72px);
 }
-.header-left{
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    flex: 1;
-}
-.header-right{
-    justify-content: end;
-    padding-right: 40px;
-    display: flex;
-    justify-content: space-evenly;
-}
+
 .logo-miniborder{
     height: 29px;
     width: calc(100%);
     bottom: 0px;
     position: absolute;
     border-radius: 0 0 5px 0;
-    border: 2px solid #666;
+    box-shadow: 0px 1px 1px #666;
+    /* border: 2px solid #666;
     border-top:0px;
-    border-left:0px
+    border-left:0px */
 }
 .cart-button{
 
 }
 .tab-item{
-    width: 75px;
-    background: aliceblue;
+    width: 100px;
     align-content: baseline;
-    margin-left: 5px;
+    margin-left: 10px;
     height: 40px;
     display: flex;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: space-evenly;
     padding-bottom: 8px;
+    text-decoration: none;
 }
 .tab-cover{
     position: absolute;
-    width: 100%;
+    width: 100px;
     height: 0px;
+    margin-left: 10px;
     transition: 100ms;
     overflow: hidden;
-    width: inherit;
     bottom:0px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(3, 102, 40, .623);
+    border-top: 5px solid var(--green2);
 }
 .tab-cover-icon{
     width: 30px;
@@ -65,8 +65,6 @@
     margin-bottom: auto;
 }
 .tab-cover.cover-active{
-    background-color: rgba(3, 102, 40, .623);
-    border-top: 5px solid var(--green2);
     height: 43px;
     align-items: flex-start;
     display: flex;
@@ -104,4 +102,121 @@
 
 .header-logo img{
     height:100px;
+}
+.logo-container{
+    height:100px;
+    width: 161px;
+    background-size:cover !important;
+}
+@media screen and (max-width: 600px) {
+    /* .logo-container{
+        height: 67px;
+        width: 67px;
+    } */
+    .background{
+        min-height: calc(100vh - 68px);
+    }
+    .header-wrapper{
+        height: 67px;
+    }
+    .header{
+        height: 67px;
+    }
+    /* .header-logo{
+        height: 67px;
+    } */
+    .header-left{
+        margin-left: 70px;
+    }
+    .feature-header{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .header-content{
+        width: -webkit-fill-available;
+        justify-content: flex-end;
+    }
+}
+
+.hamburger-menu{
+    position: absolute;
+    height: auto;
+    padding-bottom: 30px;
+    right: 0px;
+    top: 67px;
+    /* height: calc(100vh - 67px); */
+    width: 0px;
+    transition: .5s;
+    background-color: white;
+    overflow: hidden;
+}
+.hamburger-menu-content{
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 200px;
+
+}
+.hamburger-menu.show-menu{
+    width: 200px;
+    box-shadow: 0 3px 3px black;
+    
+}
+.hamburger-button{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 25px;
+    color: var(--green2);
+}
+.hamburger-button h3{
+    color: var(--green2)
+}
+.hamburger-button-icon{
+    width:1.5em;
+    height: 1.5em;
+    transition: .5s;
+    transform:rotate(0deg)
+}
+.hamburger-button-icon.hamburger-show{
+    transform:rotate(90deg)
+}
+.hamburger-tab{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-right: 5px solid var(--green2);
+    margin-bottom: 15px;
+    padding: 8px;
+    margin-right: 7px;
+    margin-left: 0;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
+    background-color: white;
+}
+.hamburger-menu-content a{
+    text-decoration: none;
+    width: 100%;
+}
+.hamburger-menu .tab-item{
+    width: auto;
+}
+.tab-icon{
+    width: 1.5em;
+    height: 1.5em;
+    color: var(--green1);
+}
+
+.hamburger-menu .tab-icon{
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.hamburger-close-button{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
 }

@@ -1,0 +1,128 @@
+.purchase-header-flex{
+    justify-content: space-evenly;
+    padding-left: 25px;
+}
+.purchase-header-item{
+    flex: 1 1;
+    align-content: flex-start;
+    display: flex;
+}
+.purchase-item-flex{
+    display: flex;
+    align-items: center;
+    width: calc(100% - 14px);
+    justify-content: space-evenly;
+    margin: 7px;
+    box-shadow: 0 0 1px #666;
+}
+.purchase-item-container{
+    width: 100%;
+}
+.purchase-item{
+    flex: 1 1;
+    align-items: center;
+    display: flex;
+    padding-left: 25px;    
+    height: 50px;
+}
+.copy-icon{
+    height: 1.6em;
+    width: 1.6em;
+    margin-right:5px;
+}
+.copy-icon svg{
+    color: var(--green1);
+}
+
+.purchase-status{
+    display: flex;
+    align-items: center;
+}
+.purchase-status-icon{
+    height: 1em;
+    width: 1em;
+    margin-right:8px;
+}
+.purchase-active svg{
+    color: var(--green1);
+}
+.purchase-pending svg{
+    color: rgba(187, 187, 0, 0.986);
+}
+.dd-icon{
+    width: 1.2em;
+    height: 1.2em;
+
+}
+.lesson-dd{
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 14px);
+    margin: auto;
+    padding: 0px 0px 5px 30px;
+    align-items: center;
+}
+.lesson-dd .dd-icon{
+    transform:rotate(-90deg);
+    transition: .5s;
+}
+.lesson-dd.open-dd .dd-icon{
+    transform: rotate(0deg);
+}
+.lesson-dd-menu{
+    transition: .5s;
+    height: 0px;
+    overflow: hidden;
+    padding-left: 30px;
+
+}
+.dd-menu-lesson{
+    padding-left:30px
+}
+.lesson-dd-menu-show{
+    height: fit-content;
+    max-height: auto;
+}
+.purchase-dd-flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-right: 10%;
+    align-items: center;
+
+}
+.purchase-dd-flex-row{
+    margin-top:5px;
+    margin-bottom: 2px;
+    box-shadow: 0 1px 1px #666;
+}
+.purchase-lesson-icon{
+    height:1.5em;
+    width: 1.5em;
+}
+.purchase-lesson-icon svg{
+    color: var(--green1);
+}
+.purchase-dd-flex-item h3{
+    font-size: 1.1em;
+}
+.purchase-dd-header h3{
+    font-size:1.3em
+}
+.purchase-dd-flex-item{
+    flex:1;
+    display:flex;
+    justify-content: flex-start;
+    padding-right: 5px;
+}
+@media screen and (max-width: 600px){
+    .purchase-body{
+        padding-left: 0px;
+        padding-right:0px;
+    }
+    .purchase-item{
+        font-size:.778em;
+        padding:5px;
+    }
+    .purchase-item h3{ font-size:1.2em}
+}

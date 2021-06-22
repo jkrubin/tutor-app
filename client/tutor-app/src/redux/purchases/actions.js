@@ -10,6 +10,10 @@ export const clearPurchases = (id) =>{
     return {type: ActionTypes.CLEAR_CART, payload: id}
 }
 
-export const getPurchases = () =>{
+export const getPurchases = (purchases) =>{
     return {type: ActionTypes.GET_PURCHASES, payload: purchases}
+}
+
+export const setIsLoading = (isLoading) =>{
+    return {type: ActionTypes.SET_ISLOADING, payload: isLoading}
 }

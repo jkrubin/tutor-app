@@ -10,7 +10,9 @@ import Cookies from 'universal-cookie'
 import * as AuthActions from '../../redux/auth/actions'
 import * as CartActions from '../../redux/cart/actions'
 import { useHistory } from 'react-router'
-const Profile = (props) => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+const Profile = ({isMobile}) => {
     const auth = useSelector(state => state.auth)
     const d = useDispatch()
     const history = useHistory()
@@ -32,9 +34,18 @@ const Profile = (props) => {
                 </Pane>
             )}
         >
-            <div className='profile-button right-nav-button'>
-                <Avatar size={45} name={auth.user.name}></Avatar>
-            </div>
+            {isMobile?
+                <div className='hamburger-tab'>
+                    <h3>Profile</h3>
+                    <div className='hamburger-tab-icon FA-icon'>
+                        <FontAwesomeIcon icon={faUser} />
+                    </div>
+                </div>
+                :
+                <div className='profile-button right-nav-button'>
+                    <Avatar size={45} name={auth.user.name}></Avatar>
+                </div>
+            }
         </Popover>
     )
 

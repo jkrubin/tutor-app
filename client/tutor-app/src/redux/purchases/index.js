@@ -1,6 +1,7 @@
 import ActionTypes from './types'
 const initialState = {
-    purchases:[]
+    purchases:[],
+    isLoading: false,
 }
 let purchases = (state = initialState, action) =>{
     switch(action.type){
@@ -17,6 +18,8 @@ let purchases = (state = initialState, action) =>{
             return{purchases:removedPurchases}
         case ActionTypes.CLEAR_PURCHASES:
             return initialState
+        case ActionTypes.SET_ISLOADING:
+            return {...state, isLoading: action.payload}
         default:
             return state
     }

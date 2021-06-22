@@ -8,11 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Feature = (props) =>{
     const {img, title, body, isFlipped} = props
-    /*
-            <div className='feature-background feature-c3'></div>
-            <div className='feature-background feature-c2'></div>
-            <div className='feature-background feature-c1'></div>
-    */
     return(
         <Pane className={`feature-container`} elevation={1}>
             <div className='feature-background FA-icon'>
