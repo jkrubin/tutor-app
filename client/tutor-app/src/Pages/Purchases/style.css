@@ -1,6 +1,10 @@
 .purchase-header-flex{
     justify-content: space-evenly;
-    padding-left: 25px;
+    margin: 5px 0 5px 0;
+    padding: 0px 5px 0px 5px;
+}
+.purchase-header-flex h3{
+    font-size: 1.5em;
 }
 .purchase-header-item{
     flex: 1 1;
@@ -17,12 +21,13 @@
 }
 .purchase-item-container{
     width: 100%;
+    margin-bottom:25px;
+    box-shadow: 0 0 2px #000000;
 }
 .purchase-item{
     flex: 1 1;
     align-items: center;
     display: flex;
-    padding-left: 25px;    
     height: 50px;
 }
 .copy-icon{
@@ -106,14 +111,29 @@
 .purchase-dd-flex-item h3{
     font-size: 1.1em;
 }
+.purchase-dd-header{
+    background-color: var(--green1);
+    border-radius: 4px;
+}
 .purchase-dd-header h3{
-    font-size:1.3em
+    font-size:1.3em;
+    color:white;
 }
 .purchase-dd-flex-item{
     flex:1;
     display:flex;
     justify-content: flex-start;
     padding-right: 5px;
+    align-items:center;
+}
+.purchase-admin-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-right: 25px;
+}
+.purchase-admin-bar h3{
+    margin-right: 25px;
 }
 @media screen and (max-width: 600px){
     .purchase-body{
@@ -124,5 +144,11 @@
         font-size:.778em;
         padding:5px;
     }
-    .purchase-item h3{ font-size:1.2em}
+    .purchase-item h3{ 
+        font-size:1.2em
+    }
+
+    .purchase-dd-flex-item h3{
+        font-size: .95em
+    }
 }

@@ -1,17 +1,21 @@
 import ActionTypes from './types'
 
-export const addPurchase = (id) =>{
-    return {type: ActionTypes.ADD_CART, payload: id}
+export const addPurchase = (purchase) =>{
+    return {type: ActionTypes.ADD_PURCHASE, payload: purchase}
 }
 export const removePurchase = (id) =>{
-    return {type: ActionTypes.REMOVE_CART, payload: id}
+    return {type: ActionTypes.REMOVE_PURCHASE, payload: id}
 }
-export const clearPurchases = (id) =>{
-    return {type: ActionTypes.CLEAR_CART, payload: id}
+export const clearPurchases = () =>{
+    return {type: ActionTypes.CLEAR_PURCHASES, payload:{}}
 }
 
 export const getPurchases = (purchases) =>{
     return {type: ActionTypes.GET_PURCHASES, payload: purchases}
+}
+
+export const updatePurchase = (purchase) =>{
+    return {type: ActionTypes.UPDATE_PURCHASE, payload: purchase}
 }
 
 export const setIsLoading = (isLoading) =>{

@@ -7,15 +7,20 @@ import {
     Button
 }from 'evergreen-ui'
 import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import * as cartActions from '../../redux/cart/actions'
+import * as PurchaseActions from '../../redux/purchases/actions'
+import * as req from '../../req'
 import LessonDisplay from '../Lessons/LessonDisplay'
 //import {CartItem} from './CartItem'
 import './style.css'
 const Cart = (props) =>{
     const d = useDispatch()
+    const history = useHistory()
     const cart = useSelector(state => state.cart)
     const lessons = useSelector(state => state.lessons)
+    const purchases = useSelector(state => state.purchases)
     let width = {
         lesson: '65%',
         price: '15%',
@@ -35,6 +40,17 @@ const Cart = (props) =>{
         )
     })
 
+    const startManualPayment = async() =>{
+        d(PurchaseActions.setIsLoading(true))
+        let res = await req.post('/api/purchase', {lessons: cart.lessons})
+        if(res.status === 200){
+            let newPurchase = res.data
+            d(PurchaseActions.addPurchase(newPurchase))
+            history.push('/purchases')
+        }
+        d(PurchaseActions.setIsLoading(false))
+
+    }
     return (
         <div className='content-cart content-page'>
             <h1 className='content-header'>Cart</h1>
@@ -82,10 +98,10 @@ const Cart = (props) =>{
                             <div className='cart-checkout-item' style={{flex: 1}}>
                             </div>
                             <div className='cart-checkout-item'>
-                                <Button disabled> Pay With Stripe</Button>
+                                <Button isLoading={purchases.isLoading} disabled> Pay With Stripe</Button>
                             </div>
                             <div className='cart-checkout-item'>
-                                <Button disabled={cart.lessons.length === 0}> Pay With Venmo</Button>
+                                <Button isLoading={purchases.isLoading} onClick={()=>{startManualPayment()}} disabled={cart.lessons.length === 0}> Pay With Venmo</Button>
                             </div>
                         </div>
                     </div> 

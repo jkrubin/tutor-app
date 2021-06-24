@@ -19,5 +19,6 @@ let attachmentRouter = express.Router({mergeParams: true})
 
 attachmentRouter.post('/', AttachmentController.createAttachment)
 
+attachmentRouter.post('/test', AttachmentController.encodeTest)
 router.use('/:LessonId/attachment', attachmentRouter)
 module.exports = router

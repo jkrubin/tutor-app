@@ -17,21 +17,9 @@ module.exports = {
             let {LessonId} = req.params
             const token = req.headers['x-access-token']
             let user = await extractUserFromToken(token)
+            let lesson = {}
             if(user){
-                let isOwned = await Purchase.findOne({
-                    where:{userId: user.id, status: 1},
-                    include: {
-                        model: Lesson,
-                        through:{
-                            model: PurchaseLesson,
-                            required: true,
-                            where:{LessonId, userId: user.id},
-                            attributes: []
-                        },
-                        attributes:['id']
-                    }
-                })
-                let lesson = await Lesson.findOne({
+                lesson = await Lesson.findOne({
                     where:{id:LessonId},
                     include:[
                         {
@@ -42,7 +30,8 @@ module.exports = {
                             through: {
                                 PurchaseLesson,
                                 where:{LessonId, userId: user.id},
-                                attributes:[]
+                                attributes:[],
+                                required: true
                             }
                         },
                         {
@@ -50,6 +39,14 @@ module.exports = {
                         }
                     ]
                 })
+                if(!lesson){
+                    lesson = await Lesson.findOne({
+                        where: {id: LessonId},
+                        include:[
+                            {model: Attachment, attributes:['id', 'name', 'description']}
+                        ]
+                    })
+                }
                 parseLesson(lesson)
                 return res.send(lesson)
             }else{
@@ -59,17 +56,16 @@ module.exports = {
                         {model: Attachment, attributes:['id', 'name', 'description']}
                     ]
                 })
+                parseLesson(lesson)
                 return res.send(lesson)
             }
-            let lesson = await Lesson.findOne({where:{id}})
-            if(!lesson){
-                return res.status(404).send({error: 'Lesson Not found'})
-            }
-            return res.send(lesson)
         }catch(err){
             console.log(err)
             return res.status(500).send({error: 'Could not get Lesson'})
         }
+    },
+    async getFullLesson(req, res){
+
     },
     async createLesson(req, res){
         try{

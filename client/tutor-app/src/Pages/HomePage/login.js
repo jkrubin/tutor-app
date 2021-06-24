@@ -7,13 +7,15 @@ import {
     TextInputField,
     toaster
   } from 'evergreen-ui' 
-import Cookies from 'universal-cookie';
+import Cookies from 'universal-cookie'
+import { useHistory } from 'react-router'
 import {useDispatch} from 'react-redux'
 import * as AuthActions from '../../redux/auth/actions'
+import './login.css'
 const Login = ({isMobile}) =>{
   const [loginForm, updateForm] = useState({email: '', password: ''})
   const d = useDispatch()
-
+  const history = useHistory()
   const handleChange = (e)=>{
     const {name, value} = e.target
     updateForm((state) => {return {...state, [name]: value}})
@@ -29,34 +31,34 @@ const Login = ({isMobile}) =>{
       const cookies = new Cookies();
       let auth = res.data
       d(AuthActions.login(auth))
+      history.push('/')
+      cookies.remove('auth')
       cookies.set('auth', auth)
       toaster.success('Welcome Back')
     }
   }
   return(
-    <Popover
-      content={
-        <Pane elevation={2} width={300} height={250} display="flex" alignItems="center" justifyContent='center' flexDirection="column">
-          <TextInputField
-            name="email"
-            label="Email"
-            placeholder="Email"
-            onChange={handleChange}/>
-          <TextInputField
-            name="password"
-            type="password"
-            label="password"
-            placeholder="password"
-            onChange={handleChange}/>
-          <Button onClick={handleSubmit}>Login</Button>
-        </Pane>
-      } >
-        {isMobile?
-            <div className='hamburger-tab'><h3>Login</h3></div>
-          :
-            <Button>Login</Button>
-        }
-    </Popover>
+    <div className='content-login content-page'>
+      <h1 className='content-header'>Log in</h1>
+      <div className='login-wrapper'>
+          <div className='login-body content-body'>
+            <Pane elevation={2} width={300} height={250} display="flex" alignItems="center" justifyContent='center' flexDirection="column">
+              <TextInputField
+                name="email"
+                label="Email"
+                placeholder="Email"
+                onChange={handleChange}/>
+              <TextInputField
+                name="password"
+                type="password"
+                label="password"
+                placeholder="password"
+                onChange={handleChange}/>
+              <Button onClick={handleSubmit}>Login</Button>
+            </Pane>
+          </div>
+      </div>
+    </div>
   )
 }
 

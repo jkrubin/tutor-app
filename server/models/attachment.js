@@ -21,7 +21,14 @@ module.exports = (sequelize, DataTypes) => {
   Attachment.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    data: DataTypes.STRING.BINARY,
+    data:{ 
+      type:DataTypes.BLOB,
+      get(){
+        if(this.getDataValue('data')){
+          return this.getDataValue('data').toString()
+        }
+      }
+    },
     metaData: DataTypes.STRING,
     isFree: DataTypes.BOOLEAN
   }, {

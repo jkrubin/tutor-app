@@ -62,7 +62,10 @@ h3{
   color: white !important;
   font-size: 1.3em !important;
 }
-
+.main-button:disabled{
+  background-color: white !important;
+  color: lightgray !important;
+}
 .content-body{
   display:flex;
   margin:auto;

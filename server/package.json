@@ -9,6 +9,7 @@
   "author": "Josh Rubin",
   "license": "ISC",
   "dependencies": {
+    "base64topdf": "^1.1.8",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",

@@ -1,0 +1,66 @@
+.lesson-attachments{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 400px;
+    background-color: #fcfcfc;
+}
+.attachment-container{
+    width: 125px;
+    height: 157px;
+    margin: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 1px #666;
+    background: white;
+    border: 1px solid #666;
+}
+
+.attachment-content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.attachment-title{
+    flex: 1;
+}
+.attachment-container:hover{
+    box-shadow: 0 0 2px var(--green1);
+}
+
+.lesson-attachments .attachment-container h3{
+    font-size: 1.1em;
+    color: black;
+}
+.attachment-icon{
+    width: 20px;
+    height: 20px;
+    padding: 6px;
+    background-color: var(--green1);
+    border-radius: 3px;
+}
+.attachment-icon svg{
+    color: white;
+}
+
+.attachment-icon:hover{
+    background-color: white;
+}
+.attachment-icon:hover svg{
+    color: var(--green1);
+}
+.attachment-container{
+    position: relative;
+}
+.attachment-toolbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: var(--green1);
+}
+.attachment-download-icon{
+    left: 5px;
+}
+.attachment-open-icon{
+    right: 5px;
+}

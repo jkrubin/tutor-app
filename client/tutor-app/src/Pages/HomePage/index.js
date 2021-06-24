@@ -6,6 +6,9 @@ import * as req from '../../req'
 import {useDispatch} from 'react-redux'
 import Cookies from 'universal-cookie';
 import * as AuthActions from '../../redux/auth/actions'
+import * as PurchaseActions from '../../redux/purchases/actions'
+import * as CartActions from '../../redux/cart/actions'
+import * as lessonsActions from '../../redux/lessons/actions'
 import {
     BrowserRouter as Router,
     Switch,
@@ -110,6 +113,24 @@ const HomePage = (props) =>{
             tokenLogin(auth.token)
         }
     }, [])
+    useEffect(()=>{
+        const callAPI = async()=>{
+            d(lessonsActions.setLoading(true))
+            let data = await req.get('/api/lesson')
+            d(lessonsActions.getLessons(data.data))
+            let purchased = await req.get('/api/purchase/lessons')
+            d(lessonsActions.getPurchased(purchased.data))
+            d(lessonsActions.setLoading(false))
+        }
+        callAPI()
+    },[])
+    const handleLogout = () =>{
+        d(AuthActions.logout())
+        d(PurchaseActions.clearPurchases())
+        d(CartActions.clearCart())
+        const cookies = new Cookies();
+        cookies.remove('auth')
+    }
     const tabMenu = tabs
         .filter(tab => tab.isShown)
         .map(tab=> <TabItem {...tab} isHovered={tab.id === tabHovered} isMobile={false} hoverCB={setTabHovered} key={tab.id}/>)
@@ -136,7 +157,12 @@ const HomePage = (props) =>{
                             </Link>
                             <div className='header-content'>
                                 {windowSize.width > 600 ? 
-                                    tabMenu
+                                    <>
+                                        {tabMenu}
+                                        {auth.isAuth &&
+                                            <Button className='main-button' onClick={()=>{handleLogout()}}>Log Out</Button>
+                                        }
+                                    </>
                                 : 
                                     <>
                                     <div onClick={()=>{setShowHamburger(!showHamburger)}} className='hamburger-button'>
@@ -172,6 +198,9 @@ const HomePage = (props) =>{
                                 </Route>
                                 <Route path='/purchases'>
                                     <Purchases />
+                                </Route>
+                                <Route path='/login'>
+                                    <Login />
                                 </Route>
                                 <Route path='/'>
                                     <Content />

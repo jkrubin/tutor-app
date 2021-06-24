@@ -2,6 +2,7 @@ let {Purchase, Lesson, PurchaseLesson, users} = require('../../models')
 const jwt = require('jsonwebtoken')
 const config = require('../../config/authConfig')
 const {generateCode, parseJSON} = require('../../helpers')
+const { INTEGER } = require('sequelize')
 const extractUserFromToken = async(token) =>{
     return new Promise((resolve, reject)=>{
         if(!token){
@@ -79,21 +80,36 @@ module.exports = {
             for(let i = 0; i < lessons.length; i++){
                 let lesson = await Lesson.findOne({where: {id: lessons[i]}})
                 if(lesson){
+                    let purchased = await PurchaseLesson.findOne({
+                        where:{userId: user.id, LessonId: lesson.id},
+                        include:{
+                            model: Purchase,
+                            where: {status: 1},
+                            require: true
+                        }
+                    })
+                    if(purchased){
+                        return res.status(401).send({
+                            error:'You have included a lesson you already own',
+                            purchase: purchased.Purchase
+                        })
+                    }
                     purchaseLessonJSON.push({
                         LessonId: lesson.id,
                         userId: user.id
                     })
-                    price += lesson.price
+                    price += parseInt(lesson.price)
                 }
             }
             let historyInit = {
                 action: 'created',
                 lessons: lessons,
-                status: 0
+                status: 0,
+                date: new Date().toString()
             }
-            console.log(purchaseLessonJSON)
             let purchase = await Purchase.create({
                 lessons: {ids: lessons},
+                price: price,
                 history: {history:[{...historyInit}]},
                 userId: user.id,
                 status: 0,
@@ -113,6 +129,7 @@ module.exports = {
                     through:{PurchaseLesson, attributes: []}
                 }
             }) 
+            parsePurchase(purchase)
             return res.send(purchase)
         }catch(err){
             console.log(err)
@@ -144,12 +161,14 @@ module.exports = {
             let history = parseJSON(purchase.history)
             history.history.push({
                 action: 'validated',
-                status: 1
+                status: 1,
+                date: new Date().toString()
             })
             purchase = await purchase.update({
                 history,
                 status: 1
             })
+            parsePurchase(purchase)
             return res.send({purchase})
         }catch(err){
             console.log(err)
@@ -170,6 +189,9 @@ module.exports = {
                     }
                 ]
             })
+            for(let i = 0; i < purchases.length; i++){
+                parsePurchase(purchases[i])
+            }
             return res.send(purchases)
         }catch(err){
             console.log(err)
@@ -220,6 +242,7 @@ module.exports = {
             if(!purchase){
                 return res.status(404).send({error: 'No purchase found with this code'})
             }
+            parsePurchase(purchase)
             return res.send(purchase)
         }catch(err){
             console.log(err)

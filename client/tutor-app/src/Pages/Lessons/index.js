@@ -15,11 +15,11 @@ import {
     Route,
 
 } from "react-router-dom"
+import LessonFull from './LessonFull'
 import { useRouteMatch } from 'react-router'
 const Lessons = (props) =>{
     const d = useDispatch()
     const match = useRouteMatch()
-    console.log(match)
     const lessons = useSelector(state => state.lessons)
     const auth = useSelector(state => state.auth)
     let data = lessons.data
@@ -33,13 +33,14 @@ const Lessons = (props) =>{
         d(lessonsActions.setLoading(false))
     }
     useEffect(()=>{
+        console.log('lesson effect')
         callAPI()
-    },[d])
+    },[])
     return(
         <div>
             <Switch>
                 <Route path ={`${match.path}/:id/view`}>
-                    VIEW
+                    <LessonFull/>
                 </Route>
                 <Route path ={`${match.path}/`}>
                     <div className='lesson-container'>

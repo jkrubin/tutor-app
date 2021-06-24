@@ -43,3 +43,26 @@ export async function post(path, body, params = {}){
         return err.response
     }
 }
+export async function put(path, body, params = {}){
+    let state = store.getState()
+    let token = false
+    try{
+        token = state.auth.token
+    }catch(err){
+
+    }
+    let finalParams = {
+        headers:{
+            'x-access-token': token
+        },
+        ...params
+    }
+    let data
+    try{
+        data = await axios.put(url+path, body, finalParams)
+        return data
+    }catch(err){
+        toaster.danger(err.response.data.error)
+        return err.response
+    }
+}

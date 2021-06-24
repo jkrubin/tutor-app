@@ -41,7 +41,6 @@ const LessonItem = (props) =>{
         default:
             break
     }
-    console.log(borderClass, roundedBorder)
     const addToCart = (id) =>{
         d(cartActions.addCart(id))
         toaster.success('item added to cart')
