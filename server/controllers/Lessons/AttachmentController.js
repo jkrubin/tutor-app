@@ -1,37 +1,53 @@
 const {Attachment} = require('../../models')
-
-const processFile = (file, type) =>{
-    let base64 = file.data.toString('base64')
-    let {encoding, mimetype, name} = file
-    let [fname, ext] = name.split('.')
-    return {
-        data: base64,
-        metaData: {
-            encoding,
-            mimetype,
-            type,
-            fname,
-            ext
+const {parseJSON} = require('../../helpers')
+const processFile = (file, type, link) =>{
+    if(type == 'link'){
+        return({
+            data: null, 
+            metaData:{
+                type,
+                link,
+            }
+        })
+    }else{
+        let base64 = file.data.toString('base64')
+        let {encoding, mimetype, name} = file
+        let [fname, ext] = name.split('.')
+        return {
+            data: base64,
+            metaData: {
+                encoding,
+                mimetype,
+                type,
+                fname,
+                ext
+            }
         }
     }
     
+}
+
+const parseFile = (file)=>{
+    file.metaData = parseJSON(file.metaData)
 }
 module.exports = { 
     async createAttachment(req, res){
         try{
             const {LessonId} = req.params
-            const {name, description, type} = req.body
+            const {name, description, type, link} = req.body
             let addedFile = false
+            let file = false
             if(req.files){
-                let file = req.files.file
-                let fileStorage = processFile(file,type)
-                addedFile = await Attachment.create({
-                    ...fileStorage,
-                    name,
-                    description,
-                    LessonId
-                })
+                file = req.files.file
             }
+            let fileStorage = processFile(file,type, link)
+            addedFile = await Attachment.create({
+                ...fileStorage,
+                name,
+                description,
+                LessonId
+            })
+            parseFile(addedFile)
             return res.send({attachment: addedFile})
         }catch(err){
             console.log(err)
@@ -40,7 +56,6 @@ module.exports = {
     },
     async encodeTest(req, res){
         try{
-            let fs = require('fs')
 
             let addedFile = false
             if(req.files){
