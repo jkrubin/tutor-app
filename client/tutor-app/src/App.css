@@ -62,6 +62,31 @@ h3{
   color: white !important;
   font-size: 1.3em !important;
 }
+.submit-button{
+  border-top: 1px solid var(--green1) !important;
+  border-bottom: 1px solid var(--green1) !important;
+  border-left: 1px solid var(--green1) !important;
+  border-right: 1px solid var(--green1) !important;
+  color: var(--green1) !important;
+}
+.discard-button{
+  border-top: 1px solid red !important;
+  border-bottom: 1px solid red !important;
+  border-left: 1px solid red !important;
+  border-right: 1px solid red !important;
+  color: red !important;
+}
+
+.submit-button:hover{
+  background-color:var(--green1) !important;
+  color: white !important;
+}
+
+.discard-button:hover{
+  background-color:red !important;
+  color: white !important;
+}
+
 .main-button:disabled{
   background-color: white !important;
   color: lightgray !important;

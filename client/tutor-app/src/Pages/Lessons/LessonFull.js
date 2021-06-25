@@ -7,7 +7,7 @@ import './lessonFull.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrashAlt, faPlus } from '@fortawesome/free-solid-svg-icons'
 import AddAttachmentForm from './Attachment/AddAttachmentForm'
-import { toaster } from 'evergreen-ui'
+import { toaster, Button, Spinner} from 'evergreen-ui'
 const LessonFull = ({}) =>{
     const params = useParams()
     const auth = useSelector((state)=>state.auth)
@@ -20,8 +20,9 @@ const LessonFull = ({}) =>{
     const [isAddAttachment, setIsAddAttachment] = useState()
     useEffect(()=>{
         const callAPI = async ()=>{
+            console.log('call api')
             setIsLoading(true)
-            let res = await req.get(`/api/lesson/${id}`)
+            let res = await req.get(`/api/lesson/${id}${auth.user.admin? '/admin': ''}`)
             let resLesson = res.data
             setLesson(resLesson)
             setEditLesson(resLesson)
@@ -29,13 +30,20 @@ const LessonFull = ({}) =>{
         }
         callAPI()
     },[id])
+    const handleAttachmentUpdate = (attachment) =>{
+        let attachments = lesson.Attachments.length? lesson.Attachments.slice() : []
+        attachments.filter(a => a.id !== attachment.id)
+        attachments.push(attachment)
+        setLesson({...lesson, Attachments:attachments})
+    }
     const updateLesson = async () =>{
         const {name, description} = editLesson
         setIsLoading(true)
         let res = await req.put(`/api/lesson/${id}`, {name, description})
         if(res.status === 200){
             let newLesson = res.data
-            setLesson(newLesson)
+            const {name, description} = newLesson
+            setLesson({...lesson, name, description})
             setEditLesson(newLesson)
             setIsEdit(false)
         }else{
@@ -51,7 +59,7 @@ const LessonFull = ({}) =>{
     const lessons = useSelector(state => state.lessons)
     const attachmentDisplay = lesson.Attachments? 
         lesson.Attachments.map((attachment) =>{
-            return <Attachment {...attachment} key={attachment.id}/>
+            return <Attachment isLoading={isLoading} {...attachment} key={attachment.id}/>
         })
     :
         false
@@ -61,7 +69,7 @@ const LessonFull = ({}) =>{
             <div className='lesson-full-wrapper'>
                 <div className='lesson-full-body content-body'>
                     {isLoading?
-                        <h1>loading...</h1>
+                        <Spinner size={64}/>
                             :
                         <div className='lesson-full-content'>
                             <div className='lesson-title-wrapper'>
@@ -92,8 +100,8 @@ const LessonFull = ({}) =>{
                                     <div className='lesson-admin-toolbar'>
                                         {isEdit &&
                                             <>
-                                            <button isLoading={isLoading} onClick={()=>{updateLesson()}}>Save</button>
-                                            <button isLoading={isLoading} onClick={()=>{setEditLesson(lesson); setIsEdit(false)}}>Discard</button>
+                                            <Button className='submit-button' isLoading={isLoading} onClick={()=>{updateLesson()}}>Save</Button>
+                                            <Button className='discard-button' isLoading={isLoading} onClick={()=>{setEditLesson(lesson); setIsEdit(false)}}>Discard</Button>
                                             </>
                                         }
                                         <div onClick={()=>{setIsEdit(!isEdit)}} className='lesson-admin-icon FA-icon'>
@@ -115,9 +123,13 @@ const LessonFull = ({}) =>{
                                     </div>
                                 }
                                 {isAddAttachment?
-                                    <AddAttachmentForm lessonId={id} />
+                                    <AddAttachmentForm 
+                                        onCreate={handleAttachmentUpdate}
+                                        lessonId={id} 
+                                        close={()=>{setIsAddAttachment(false)}}/>
                                 :
-                                    attachmentDisplay}
+                                    attachmentDisplay
+                                }
                             </div>
                         </div>
                     }

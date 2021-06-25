@@ -16,8 +16,15 @@ export async function get(path, params = {}){
         },
         ...params
     }
-    let data = await axios.get(url+path, finalParams)
-    return data
+    let data = {}
+    try{
+        data = await axios.get(url+path, finalParams)
+        return data
+    }catch(err){
+        toaster.danger(err.response.data.error)
+        return err
+    }
+
 }
 
 export async function post(path, body, params = {}){

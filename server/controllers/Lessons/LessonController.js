@@ -64,8 +64,45 @@ module.exports = {
             return res.status(500).send({error: 'Could not get Lesson'})
         }
     },
-    async getFullLesson(req, res){
-
+    async adminGetLesson(req, res){
+        try{
+            let {LessonId} = req.params
+            const token = req.headers['x-access-token']
+            let user = await extractUserFromToken(token)
+            let lesson = {}
+            if(user){
+                lesson = await Lesson.findOne({
+                    where:{id:LessonId},
+                    include:[
+                        {
+                            model: Attachment
+                        }
+                    ]
+                })
+                if(!lesson){
+                    lesson = await Lesson.findOne({
+                        where: {id: LessonId},
+                        include:[
+                            {model: Attachment, attributes:['id', 'name', 'description']}
+                        ]
+                    })
+                }
+                parseLesson(lesson)
+                return res.send(lesson)
+            }else{
+                lesson = await Lesson.findOne({
+                    where: {id: LessonId},
+                    include:[
+                        {model: Attachment, attributes:['id', 'name', 'description']}
+                    ]
+                })
+                parseLesson(lesson)
+                return res.send(lesson)
+            }
+        }catch(err){
+            console.log(err)
+            return res.status(500).send({error: 'Could not get Lesson'})
+        }
     },
     async createLesson(req, res){
         try{

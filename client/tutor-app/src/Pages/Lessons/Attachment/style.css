@@ -64,3 +64,38 @@
 .attachment-open-icon{
     right: 5px;
 }
+
+.attachment-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+}
+.attachment-form-input{
+    width: min-content;
+}
+.attachment-form-input-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+.attachment-form-area{
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.attachment-form-input-container input{
+    font-size: .8em;
+}
+.attachment-form-submit{
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+    align-items: flex-end;
+}
+.attachment-form-submit button{
+    margin:5px;
+}

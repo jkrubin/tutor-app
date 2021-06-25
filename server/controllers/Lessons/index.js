@@ -7,6 +7,9 @@ router.get('/', LessonController.index)
 
 router.get('/:LessonId', LessonController.getLesson)
 
+router.get('/:LessonId/admin', 
+    AuthenticationController.isAdmin,
+    LessonController.adminGetLesson)
 router.post('/',
     AuthenticationController.isAdmin,
     LessonController.createLesson)

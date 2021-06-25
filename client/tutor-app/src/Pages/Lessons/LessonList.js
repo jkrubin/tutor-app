@@ -48,7 +48,7 @@ const LessonList = (props) =>{
     return(
         <div className='lesson-content'>
             <div className = 'lesson-list'>
-                {lessonsList}{lessonsList}
+                {lessonsList}
             </div>
         </div>
     )
