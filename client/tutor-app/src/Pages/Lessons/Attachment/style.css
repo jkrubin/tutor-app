@@ -1,4 +1,4 @@
-.lesson-attachments{
+ss{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -24,13 +24,14 @@
 .attachment-title{
     flex: 1;
 }
-.attachment-container:hover{
-    box-shadow: 0 0 2px var(--green1);
+.active-attachment:hover{
+    box-shadow: 0 0 4px var(--green1);
 }
 
+
 .lesson-attachments .attachment-container h3{
-    font-size: 1.1em;
-    color: black;
+    font-size: 1.1em !important;
+    color: black !important;
 }
 .attachment-icon{
     width: 20px;
@@ -43,14 +44,17 @@
     color: white;
 }
 
-.attachment-icon:hover{
+.active-attachment .attachment-icon:hover{
     background-color: white;
 }
-.attachment-icon:hover svg{
+.active-attachment .attachment-icon:hover svg{
     color: var(--green1);
 }
 .attachment-container{
     position: relative;
+}
+.blur-attachment{
+    opacity: .5;
 }
 .attachment-toolbar{
     display: flex;

@@ -21,6 +21,7 @@
 
 .lesson-list{
     display: flex;
+    position: relative;
     flex-direction: row;
     overflow: scroll;
     height: 100%;
@@ -28,7 +29,9 @@
     flex-wrap: wrap;
     justify-content: center;
 }
-
+.lesson-list .add-attachment{
+    right: 35px;
+}
 .lesson-item-container{
     min-width: 300px;
     max-width: 500px;
@@ -43,6 +46,9 @@
     flex-wrap: wrap;
     overflow: hidden;
     background-color: white;
+}
+.lesson-item-container *{
+    text-decoration: none;
 }
 .lesson-item-container.rounded-left{
     border-top-left-radius: 1000px;

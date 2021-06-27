@@ -16,10 +16,11 @@ import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './style.css'
 import {
-    Link
+    Link, useHistory
   } from "react-router-dom"
 const LessonItem = (props) =>{
     const {lesson, isHovered, hoverCB = ()=>{}, editCB = ()=>{}, isAdmin = false, roundedBorder = 1, cartDisplay = false} = props
+    const history = useHistory()
     const d = useDispatch()
     const cart = useSelector(state=> state.cart)
     const purchased = useSelector(state=> state.lessons.purchasedLessons)
@@ -68,21 +69,21 @@ const LessonItem = (props) =>{
             onMouseEnter={()=>{hoverCB(lesson.id)}}
             onMouseLeave={()=>{hoverCB(false)}}
         >
-            <div className = 'lesson-item-top'>
-                <div className='FA-icon lesson-item-img'>
-                    <div className='lesson-item-svg'>
-                        <Link to ={`/lessons/${lesson.id}/view`}>
-                            <FontAwesomeIcon icon={faChalkboardTeacher} className='lesson-item-icon' />
-                        </Link>
+            <Link to ={`/lessons/${lesson.id}/view`}>
+                <div className = 'lesson-item-top'>
+                    <div className='FA-icon lesson-item-img'>
+                        <div className='lesson-item-svg'>
+                                <FontAwesomeIcon icon={faChalkboardTeacher} className='lesson-item-icon' />
+                        </div>
+                    </div>
+                    <div className='lesson-item-info'>
+                        <div className='lesson-item-name'><h3>{lesson.name}</h3></div>
+                        {!cartDisplay &&
+                            <div className='lesson-item-description'><p>{lesson.description} THis is a long lesson description and you better believe we will resize text if its too small </p></div>
+                        }
                     </div>
                 </div>
-                <div className='lesson-item-info'>
-                    <div className='lesson-item-name'><h3>{lesson.name}</h3></div>
-                    {!cartDisplay &&
-                        <div className='lesson-item-description'><p>{lesson.description} THis is a long lesson description and you better believe we will resize text if its too small </p></div>
-                    }
-                </div>
-            </div>
+            </Link>
             <div className='lesson-item-toolbar'>
                 {!cartDisplay &&
                     <Pane onMouseEnter={()=>{setTBHovered('Q')}} onMouseLeave={()=>{setTBHovered(false)}} >
@@ -111,7 +112,7 @@ const LessonItem = (props) =>{
                             <Icon icon={ShoppingCartIcon} />
                         </div>
                         <div className='lesson-toolbar-right'>
-                            <Icon onClick={()=>editCB(lesson.id)} icon={EditIcon} size={20}/>
+                            <Icon onClick={()=>{history.push(`/lessons/${lesson.id}/view`)}} icon={EditIcon} size={20}/>
                         </div>
                     </div>
                 :

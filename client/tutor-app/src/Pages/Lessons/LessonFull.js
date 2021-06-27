@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
-import { useSelector } from 'react-redux'
+import { useParams, useHistory } from 'react-router'
+import { useSelector, useDispatch } from 'react-redux'
 import * as req from '../../req'
 import Attachment from './Attachment'
 import './lessonFull.css'
@@ -8,27 +8,44 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrashAlt, faPlus } from '@fortawesome/free-solid-svg-icons'
 import AddAttachmentForm from './Attachment/AddAttachmentForm'
 import { toaster, Button, Spinner} from 'evergreen-ui'
-const LessonFull = ({}) =>{
+import * as LessonActions from '../../redux/lessons/actions'
+const LessonFull = ({edit}) =>{
     const params = useParams()
+    const history = useHistory()
+    const d = useDispatch()
     const auth = useSelector((state)=>state.auth)
+    let isNew = false
     let {id} = params
-    id = parseInt(id)
+    if(id === 'new'){
+        isNew = true
+    }else{
+        id = parseInt(id)
+    }
     const [lesson, setLesson] = useState({})
     const [isLoading, setIsLoading] = useState(false)
-    const [isEdit, setIsEdit] = useState(false)
+    const [isEdit, setIsEdit] = useState(edit)
     const [editLesson, setEditLesson] = useState({})
     const [isAddAttachment, setIsAddAttachment] = useState()
     useEffect(()=>{
         const callAPI = async ()=>{
-            console.log('call api')
             setIsLoading(true)
             let res = await req.get(`/api/lesson/${id}${auth.user.admin? '/admin': ''}`)
             let resLesson = res.data
             setLesson(resLesson)
             setEditLesson(resLesson)
             setIsLoading(false)
+            setIsEdit(false)
         }
-        callAPI()
+        if(id === 'new'){
+            setLesson({
+                name: '',
+                description: '',
+                Attachments: [],
+            })
+            setIsEdit(true)
+        }else{
+            callAPI()
+        }
     },[id])
     const handleAttachmentUpdate = (attachment) =>{
         let attachments = lesson.Attachments.length? lesson.Attachments.slice() : []
@@ -52,11 +69,28 @@ const LessonFull = ({}) =>{
         setIsLoading(false)
 
     }
+    const createLesson = async () =>{
+        const {name, description} = editLesson
+        setIsLoading(true)
+        let res = await req.post('/api/lesson', {name, description})
+        if(res.status === 200){
+            let newLesson = res.data
+            d(LessonActions.addLesson(newLesson))
+            setIsLoading(false)
+            history.push(`/lessons/${newLesson.id}/view`)
+        }
+    }
     const handleLessonChange = (e) =>{
         const {name, value} = e.target
         setEditLesson({...editLesson, [name]: value})
     }
-    const lessons = useSelector(state => state.lessons)
+    const handleDiscard = () =>{
+        setEditLesson(lesson)
+        setIsEdit(false)
+    }
+    const discardNew = () =>{
+        history.push('/lessons')
+    }
     const attachmentDisplay = lesson.Attachments? 
         lesson.Attachments.map((attachment) =>{
             return <Attachment isLoading={isLoading} {...attachment} key={attachment.id}/>
@@ -100,8 +134,8 @@ const LessonFull = ({}) =>{
                                     <div className='lesson-admin-toolbar'>
                                         {isEdit &&
                                             <>
-                                            <Button className='submit-button' isLoading={isLoading} onClick={()=>{updateLesson()}}>Save</Button>
-                                            <Button className='discard-button' isLoading={isLoading} onClick={()=>{setEditLesson(lesson); setIsEdit(false)}}>Discard</Button>
+                                            <Button className='submit-button' isLoading={isLoading} onClick={()=>{isNew? createLesson(): updateLesson()}}>Save</Button>
+                                            <Button className='discard-button' isLoading={isLoading} onClick={()=>{isNew? discardNew(): handleDiscard()}}>Discard Changes</Button>
                                             </>
                                         }
                                         <div onClick={()=>{setIsEdit(!isEdit)}} className='lesson-admin-icon FA-icon'>
@@ -114,15 +148,17 @@ const LessonFull = ({}) =>{
                                 }
                             </div>
                             <h2>Attachments:</h2> 
-                            <div className='lesson-attachments'>
-                                {auth.user.admin && 
-                                    <div className='add-attachment'>
-                                        <div className='FA-icon add-attachment-icon' onClick={()=>{setIsAddAttachment(true)}}>
+                            <div className={`lesson-attachments ${isNew && 'new-lesson-attachments'}`}>
+                                {auth.user.admin && !isNew &&
+                                    <div className='add-attachment add-button'>
+                                        <div className='FA-icon add-attachment-icon add-icon' onClick={()=>{setIsAddAttachment(true)}}>
                                             <FontAwesomeIcon icon={faPlus} />
                                         </div>
                                     </div>
                                 }
-                                {isAddAttachment?
+                                {isNew? 
+                                    <h3 className='new-lesson-attachment'>Must create lesson before adding attachments</h3>
+                                :isAddAttachment?
                                     <AddAttachmentForm 
                                         onCreate={handleAttachmentUpdate}
                                         lessonId={id} 

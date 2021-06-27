@@ -92,7 +92,7 @@ const Purchases = (props) =>{
                         <h3>{lesson.description}</h3>
                     </div>
                     <div className='purchase-dd-flex-item' style={{width:'13%', flex:0}}>
-                        <h3>{lesson.price}</h3>
+                        <h3>${lesson.price}</h3>
                     </div>
                 </div> 
                 
@@ -133,7 +133,7 @@ const Purchases = (props) =>{
                         {msg}
                     </div>
                     <div className='purchase-item purchase-price'>
-                        {purchase.price || 'null'}
+                        ${purchase.price || 'null'}
                     </div>
                     {isAdmin &&
                         <div className='purchase-item purchase-price'>

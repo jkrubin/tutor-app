@@ -31,6 +31,7 @@ import { faAtom, faBars, faTimes, faHome, faChalkboardTeacher, faShoppingCart, f
 import './index.css'
 const HomePage = (props) =>{
     const d = useDispatch()
+    const history = useHistory()
     const auth = useSelector(state => state.auth)
     const cart = useSelector(state => state.cart)
     const [tabHovered, setTabHovered] = useState(0)
@@ -130,6 +131,7 @@ const HomePage = (props) =>{
         d(CartActions.clearCart())
         const cookies = new Cookies();
         cookies.remove('auth')
+        history.push('/')
     }
     const tabMenu = tabs
         .filter(tab => tab.isShown)

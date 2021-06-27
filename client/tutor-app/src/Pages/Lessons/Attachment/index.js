@@ -38,13 +38,13 @@ const Attachment = ({name, description, data, metaData, isLoading})=>{
 
     return(
         <>
-        <div className='attachment-container' onClick={handleOpen}>
-            <div className='attachment-content'>
+        <div className='attachment-container' onClick={metaData && handleOpen}>
+            <div className={`attachment-content ${metaData? 'active-attachment': 'blur-attachment'}`}>
                 {isLoading?
                     <Spinner size={64} />
                     :
                    <>
-                        <div className='attachment-title'>
+                        <div className={`attachment-title`}>
                             <h3>{name}</h3>
                             <h4>{description}</h4>
                         </div>
@@ -55,7 +55,7 @@ const Attachment = ({name, description, data, metaData, isLoading})=>{
                                 </a>
                             :
                                 <>
-                                <div className='FA-icon attachment-icon attachment-open-icon' onClick={()=>{handleOpen()}}><FontAwesomeIcon icon={faExternalLinkAlt} /></div>
+                                <div className='FA-icon attachment-icon attachment-open-icon' onClick={()=>{data && handleOpen()}}><FontAwesomeIcon icon={faExternalLinkAlt} /></div>
                                 {downloadLink}
                                 </>
                             }
